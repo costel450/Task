@@ -149,6 +149,7 @@ namespace Task
             string value = sb.ToString();
             return value;
         }
+        /*
         public string reg(string text, string pattern)
         {
             StringBuilder sb = new StringBuilder();
@@ -163,9 +164,20 @@ namespace Task
             }
             string value= sb.ToString();
             return value;
+        }*/
+        static List<string> REGVAL(string text,string pattern)
+        {
+            List<string> results = new List<string>();
+            Regex regex = new Regex(pattern);
+            MatchCollection matches = regex.Matches(text);
+            foreach (Match match in matches)
+            {
+                results.Add(match.Value);
+            }
+            return results;
         }
 
-        public void SearchValuesInText(string text)
+            public void SearchValuesInText(string text)
         {
             TextBox textBox1 = new TextBox();
             textBox1.Location = new Point(10, 10);
@@ -177,13 +189,38 @@ namespace Task
             Controls.Add(textBox1);
             string[] searchtext = {"23ROBV" };
             string mrn=extractFEature(text, searchtext);
-            string[] marfa = { "cod marfa" };
-            string cod_marfa=searchnext(text, marfa);
             StringBuilder sb = new StringBuilder();
-            string pattern = @"\b\d{2}/\d{2}/\d{4}\b";
-            string date=reg(text, pattern);
+            //string[] marfa = { "cod marfa" , "martc", " Cod martc ", "Cod mart: " };
+            string pattern = @"\b[83]\d{7}\b";
+            List<string> valuesStartingWith8 = REGVAL(text,pattern);
 
-            Form2 form2 = new Form2(mrn, date, cod_marfa);
+            foreach (string value in valuesStartingWith8)
+            {
+                sb.Append(value); break;
+
+            }
+            string cod_marfa=sb.ToString();
+            sb = sb.Clear();
+            //string cod_marfa=searchnext(text, marfa);
+            //string cod_marfa = reg(text, marfa);
+            
+            string patern = @"\b\d{2}/\d{2}/\d{4}\b";
+            List<string> data = REGVAL(text, patern);
+
+            foreach (string value in data)
+            {
+                sb.Append(value); break;
+
+            }
+            string date=sb.ToString();
+            sb = sb.Clear();
+            string[] provider = { "TURVO" };
+            string provid = extractFEature(text, provider);
+            if(provid== "TURVO")
+            {
+                provid = "TURVO INTERNATIONAL CO LTD ";
+            }
+            Form2 form2 = new Form2(mrn, date, cod_marfa, provid);
             form2.ShowDialog();
 
         }

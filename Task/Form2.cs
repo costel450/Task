@@ -12,7 +12,7 @@ namespace Task
 {
     public partial class Form2 : Form
     {
-        public Form2(string text,string data,string cod)
+        public Form2(string text,string data,string cod,string provider)
         {
             InitializeComponent();
             TextBox textBox2 = new TextBox();
@@ -26,7 +26,7 @@ namespace Task
             Controls.Add(textBox2);
 
             TextBox textBox3 = new TextBox();
-            textBox3.Location = new Point(500, 20);
+            textBox3.Location = new Point(200, 20);
             textBox3.Multiline = true;
             textBox3.Height = 25;
             textBox3.Width = 70;
@@ -36,7 +36,7 @@ namespace Task
            
 
             TextBox textBox4 = new TextBox();
-            textBox4.Location = new Point(1000, 20);
+            textBox4.Location = new Point(400, 20);
             textBox4.Multiline = true;
             textBox4.Height = 25;
             textBox4.Width = 70;
@@ -44,6 +44,14 @@ namespace Task
             textBox4.Text = cod;
             Controls.Add(textBox4);
 
+            TextBox textBox5 = new TextBox();
+            textBox5.Location = new Point(20, 120);
+            textBox5.Multiline = true;
+            textBox5.Height = 25;
+            textBox5.Width = 120;
+            textBox5.Visible = true;
+            textBox5.Text = provider;
+            Controls.Add(textBox5);
 
             this.FormClosing += Form2_FormClosing;
 
