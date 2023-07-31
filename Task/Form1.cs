@@ -99,35 +99,10 @@ namespace Task
                 }
             }
         }
-
-        public void SearchValuesInText(string text)
+        public string extractFEature(string text, string[]feature)
         {
-            TextBox textBox1 = new TextBox();
-            textBox1.Location = new Point(10, 10);
-            textBox1.Multiline = true;
-            textBox1.Height = 250;
-            textBox1.Width = 500;
-            textBox1.Visible = true;
-            textBox1.Text = text;
-            Controls.Add(textBox1);
-            string[] searchtext = {"23BV" };
-            /*
-             "PRETTL ELECTRIC MEXIC","SFS GROUP CH", "SHANGHAI FL DAI ICHI CHINA","PRETTL VN","BENO PLASTIK TURCIA",
-                "CWB AUTOMOTIVE CHINA","FORD OTOMOTIV TR","ALLEGRO MICROSYSTEM PH","KYUNGWON KOREA","ROBERT BOSCH US", "BOSCH LIMITED BANGALORE IN",
-                "PRETTL ELECTRIC CN","TE CONECTIVITY HONG KONG","ROBERT BOSCH LLC MX", "UAES CN", "AMPHENOL CHINA","METAL SEAL PRECISION LTD US", "BOSCH AUTOMOTIVE PRODUCTS CHENGDU",
-                "PRETTL ELECTRIC CHINA","LOYOUNG ELECTRIC&CABLE SHENZEN CN","SHANGHAI VICO CHINA","ALLEGRO PH","ROBERT BOSCH TH","SHANGHAI FL DAI ICHI CN",
-                "PRETTLE ELECTRIC CN","ELFO AG ELVETIA", "FORD MOTOR BR","PRETTL AUTOMOTIVE VIETNAM","KERN LIEBERS CHINA","INOVAN CONTACT CN","BOSCH CORPORATION JP",
-                "BOSCH AUTOMOTIVE SYSTEMS WUXI CN","SIGMA&HEARTS TH","BAUMANN SPRINGS CH","BAOTOU TIAHNE MAGNETICS CN","GENTHERM INCORP USA","RPK MX",
-                "PRETTL KR","ALLEGRO MICROSYSTEMS PH","JIANGYIN CN","JAGUAR LAND ROVER","ROBERT BOSCH LLC USA","ROBERT BOSCH KR","TURVO INTERN.TAIWAN",
-                "LOYOUNG ELECTRIC & CABLE CN","UNITED AUTOMOTIVE CHINA","HONG KONG  LOROM","HEINZ CH","ROBERT BOSCH MY","BOSCH SANYIAI VE TICARET TR",
-                "ROBERT BOSCH ID","AMPHENOL MOBILE CONNECTOR CN","BOSCH SANAYI TR","BEIJING ZHONG CN","ROBERT BOSCH GMBH GB","BOSCH CORP JAP","HANGZHOU AMPHENOL",
-                "CWB AUTOMOTIVE CN","BOSCH AUTOMOTIVE PRODUCTS SUZHOU","ROBERT BOSCH LLC US","HANGZHOU AMPHENOL CHINA","LOROM CN","TTM ASIA","EMS CHEMIE AG ELVETIA",
-                "OSKAR RUEGG ELVETIA","ROBERT BOSCH LLC PIEMONT"
-             */
-
             StringBuilder sb = new StringBuilder();
-
-            foreach (string value in searchtext)
+            foreach (string value in feature)
             {
                 int index = text.IndexOf(value, StringComparison.OrdinalIgnoreCase);
                 if (index != -1)
@@ -139,17 +114,23 @@ namespace Task
                         endIndex = text.Length;
                     }
                     string test = text.Substring(startIndex, endIndex - startIndex);
-                    test = test.Substring(0, 19);
+                    if(test.Length>=19)
+                    {
+                        test = test.Substring(0, 19);
+                    }
                     sb.Append(test);
+
+
                 }
             }
             string mrn = sb.ToString();
             sb.Clear();
-
-
-            string[] textData = {"cod marfa"};
-
-            foreach (string searchValue in textData)
+            return mrn;
+        }
+        public string searchnext(string text,string[]array)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (string searchValue in array)
             {
                 int index = text.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase);
                 if (index != -1)
@@ -165,9 +146,12 @@ namespace Task
                     sb.Append(nextValue);
                 }
             }
-            string cod_marfa = sb.ToString();
-
-            string pattern = @"\b\d{2}/\d{2}/\d{4}\b";
+            string value = sb.ToString();
+            return value;
+        }
+        public string reg(string text, string pattern)
+        {
+            StringBuilder sb = new StringBuilder();
             Regex regex = new Regex(pattern);
             MatchCollection matches = regex.Matches(text);
             sb.Clear();
@@ -177,11 +161,31 @@ namespace Task
                 sb.Append(data);
                 break;
             }
+            string value= sb.ToString();
+            return value;
+        }
 
-            string date = sb.ToString();
+        public void SearchValuesInText(string text)
+        {
+            TextBox textBox1 = new TextBox();
+            textBox1.Location = new Point(10, 10);
+            textBox1.Multiline = true;
+            textBox1.Height = 250;
+            textBox1.Width = 500;
+            textBox1.Visible = true;
+            textBox1.Text = text;
+            Controls.Add(textBox1);
+            string[] searchtext = {"23ROBV" };
+            string mrn=extractFEature(text, searchtext);
+            string[] marfa = { "cod marfa" };
+            string cod_marfa=searchnext(text, marfa);
+            StringBuilder sb = new StringBuilder();
+            string pattern = @"\b\d{2}/\d{2}/\d{4}\b";
+            string date=reg(text, pattern);
 
             Form2 form2 = new Form2(mrn, date, cod_marfa);
             form2.ShowDialog();
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
