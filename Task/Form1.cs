@@ -214,11 +214,23 @@ namespace Task
             }
             string date=sb.ToString();
             sb = sb.Clear();
-            string[] provider = { "TURVO" };
+            string[] provider = { "TURVO", "GENTHERM", "USHIKUBO", "CWB" };
             string provid = extractFEature(text, provider);
             if(provid== "TURVO")
             {
                 provid = "TURVO INTERNATIONAL CO LTD ";
+            }
+            else if(provid== "GENTHERM")
+            {
+                provid = "GENTHERM INCORPORATED";
+            }
+            else if(provid== "USHIKUBO")
+            {
+                provid = "BOSCH CORPORATION USHIKUBO TSZUKIKU";
+            }
+            else if (provid=="CWB")
+            {
+                provid = "CWB AUTOMOTIVE ELECTRONICS CO LTD";
             }
             Form2 form2 = new Form2(mrn, date, cod_marfa, provid);
             form2.ShowDialog();
