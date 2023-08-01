@@ -99,7 +99,7 @@ namespace Task
                 }
             }
         }
-        public string extractFEature(string text, string[]feature)
+        public string extractFEature(string text, string[] feature)
         {
             StringBuilder sb = new StringBuilder();
             foreach (string value in feature)
@@ -114,7 +114,7 @@ namespace Task
                         endIndex = text.Length;
                     }
                     string test = text.Substring(startIndex, endIndex - startIndex);
-                    if(test.Length>=19)
+                    if (test.Length >= 19)
                     {
                         test = test.Substring(0, 19);
                     }
@@ -127,7 +127,7 @@ namespace Task
             sb.Clear();
             return mrn;
         }
-        public string searchnext(string text,string[]array)
+        public string searchnext(string text, string[] array)
         {
             StringBuilder sb = new StringBuilder();
             foreach (string searchValue in array)
@@ -165,7 +165,7 @@ namespace Task
             string value= sb.ToString();
             return value;
         }*/
-        static List<string> REGVAL(string text,string pattern)
+        static List<string> REGVAL(string text, string pattern)
         {
             List<string> results = new List<string>();
             Regex regex = new Regex(pattern);
@@ -175,9 +175,34 @@ namespace Task
                 results.Add(match.Value);
             }
             return results;
+
         }
 
-            public void SearchValuesInText(string text)
+        static List<string> ExtractValuesFromText(string text, string[] valueArray)
+        {
+            List<string> extractedValues = new List<string>();
+
+            foreach (string value in valueArray)
+            {
+                int startIndex = 0;
+                while (true)
+                {
+                    startIndex = text.IndexOf(value, startIndex, StringComparison.OrdinalIgnoreCase);
+                    if (startIndex == -1)
+                        break;
+
+                    int endIndex = startIndex + value.Length;
+
+                    extractedValues.Add(text.Substring(startIndex, endIndex - startIndex));
+
+                    startIndex += 1;
+                }
+            }
+
+            return extractedValues;
+        }
+
+        public void SearchValuesInText(string text)
         {
             TextBox textBox1 = new TextBox();
             textBox1.Location = new Point(10, 10);
@@ -187,23 +212,23 @@ namespace Task
             textBox1.Visible = true;
             textBox1.Text = text;
             Controls.Add(textBox1);
-            string[] searchtext = {"23ROBV" };
-            string mrn=extractFEature(text, searchtext);
+            string[] searchtext = { "23ROBV" };
+            string mrn = extractFEature(text, searchtext);
             StringBuilder sb = new StringBuilder();
             //string[] marfa = { "cod marfa" , "martc", " Cod martc ", "Cod mart: " };
             string pattern = @"\b[83]\d{7}\b";
-            List<string> valuesStartingWith8 = REGVAL(text,pattern);
+            List<string> valuesStartingWith8 = REGVAL(text, pattern);
 
             foreach (string value in valuesStartingWith8)
             {
                 sb.Append(value); break;
 
             }
-            string cod_marfa=sb.ToString();
+            string cod_marfa = sb.ToString();
             sb = sb.Clear();
             //string cod_marfa=searchnext(text, marfa);
             //string cod_marfa = reg(text, marfa);
-            
+
             string patern = @"\b\d{2}/\d{2}/\d{4}\b";
             List<string> data = REGVAL(text, patern);
 
@@ -212,30 +237,38 @@ namespace Task
                 sb.Append(value); break;
 
             }
-            string date=sb.ToString();
+            string date = sb.ToString();
             sb = sb.Clear();
-            string[] provider = { "TURVO", "GENTHERM", "USHIKUBO", "CWB" };
-            string provid = extractFEature(text, provider);
-            if(provid== "TURVO")
+            //string[] provider = { "TURVO", "GENTHERM", "USHIKUBO", "CWB" };
+            string[] provider = { "TURVO INTERNATIONAL CO LTD", "GENTHERM INCORPORATED", " USHIKUBO TSZUKIKU", "CWB AUTOMOTIVE ELECTRONICS CO LTD" };
+
+            List<string> providValues = ExtractValuesFromText(text, provider);
+
+            foreach (string value in providValues)
             {
-                provid = "TURVO INTERNATIONAL CO LTD ";
+                sb.Append(value); break;
+
             }
-            else if(provid== "GENTHERM")
+            string provid = sb.ToString();
+            sb.Clear();
+
+
+            string[] tara = { "China", "Statele Unite", "Japonia" };
+            List<string> extractedValues = ExtractValuesFromText(text, tara);
+
+            foreach (string value in extractedValues)
             {
-                provid = "GENTHERM INCORPORATED";
+                sb.Append(value);
+                break;
             }
-            else if(provid== "USHIKUBO")
-            {
-                provid = "BOSCH CORPORATION USHIKUBO TSZUKIKU";
-            }
-            else if (provid=="CWB")
-            {
-                provid = "CWB AUTOMOTIVE ELECTRONICS CO LTD";
-            }
-            Form2 form2 = new Form2(mrn, date, cod_marfa, provid);
-            form2.ShowDialog();
+            string exp = sb.ToString();
+            sb = sb.Clear();
+
+            Form2 form2 = new Form2(mrn, date, cod_marfa, provid, exp);
+            form2.Show();
 
         }
+
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {

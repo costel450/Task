@@ -12,7 +12,7 @@ namespace Task
 {
     public partial class Form2 : Form
     {
-        public Form2(string text,string data,string cod,string provider)
+        public Form2(string text, string data, string cod, string provider, string exp)
         {
             InitializeComponent();
             TextBox textBox2 = new TextBox();
@@ -38,7 +38,7 @@ namespace Task
             Label label3 = new Label();
             label3.Location = new Point(215, 25);
             label3.Text = "Date";
-            
+
             Controls.Add(textBox3);
             Controls.Add(label3);
 
@@ -72,6 +72,22 @@ namespace Task
             Controls.Add(textBox5);
             Controls.Add(label5);
 
+            TextBox textBox6 = new TextBox();
+            textBox6.Location = new Point(250, 120);
+            Label label6 = new Label();
+
+            label6.Location = new Point(215, 120);
+            label6.Text = "Tara";
+            textBox6.Multiline = true;
+            textBox6.Height = 25;
+            textBox6.Width = 75;
+            textBox6.Visible = true;
+            textBox6.Text = exp;
+            textBox6.TextAlign = HorizontalAlignment.Center;
+            Controls.Add(textBox6);
+            Controls.Add(label6);
+
+
             this.FormClosing += Form2_FormClosing;
 
         }
@@ -81,11 +97,11 @@ namespace Task
             {
                 //Form3 form3 = new Form3();
                 //form3.Show();
-            }   
+            }
 
 
         }
-       
+
         private void Form2_Load(object sender, EventArgs e)
         {
 
