@@ -263,8 +263,44 @@ namespace Task
             }
             string exp = sb.ToString();
             sb = sb.Clear();
+    
+            string model = @"\b(?<currency>USD|EUR|GBP|JPY|CAD|AUD|CNY)\b";
+            List<string> moned = REGVAL(text, model);
 
-            Form2 form2 = new Form2(mrn, date, cod_marfa, provid, exp);
+            foreach (string value in moned)
+            {
+                sb.Append(value); break;
+
+            }
+            string moneda_plata=sb.ToString();
+            sb=sb.Clear();
+            /*
+            string mod = @"Pret articol\s+(\d+(\.\d{1,2})?)";
+            List<string> valo = REGVAL(text, mod);
+
+            foreach (string value in valo)
+            {
+                sb.Append(value); break;
+
+            }
+           
+            string valaore = sb.ToString().Replace("Pret articol", "").Trim();
+
+            sb = sb.Clear();
+
+            MessageBox.Show(valaore);
+            */
+           string mod = @"(?i)(Pret\s*articol|Pretarticol)\s*(\d+(\.\d{1,2})?)";
+            List<string> valo = REGVAL(text, mod);
+
+            foreach (string value in valo)
+            {
+                sb.Append(value); break;
+
+            }
+            string valaore=sb.ToString().Replace("Pret articol","").Trim();
+            // Create a Regex object with the pattern
+            Form2 form2 = new Form2(mrn, date, cod_marfa, provid, exp, moneda_plata, valaore) ;
             form2.Show();
 
         }

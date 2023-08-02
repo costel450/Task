@@ -12,7 +12,7 @@ namespace Task
 {
     public partial class Form2 : Form
     {
-        public Form2(string text, string data, string cod, string provider, string exp)
+        public Form2(string text, string data, string cod, string provider, string exp,string moneda,string valoare)
         {
             InitializeComponent();
             TextBox textBox2 = new TextBox();
@@ -86,6 +86,37 @@ namespace Task
             textBox6.TextAlign = HorizontalAlignment.Center;
             Controls.Add(textBox6);
             Controls.Add(label6);
+
+            TextBox textBox7 = new TextBox();
+            textBox7.Location = new Point(400, 120);
+            Label label7 = new Label();
+
+            label7.Location = new Point(350, 120);
+            label7.Text = "Currency";
+            textBox7.Multiline = true;
+            textBox7.Height = 25;
+            textBox7.Width = 75;
+            textBox7.Visible = true;
+            textBox7.Text = moneda;
+            textBox7.TextAlign = HorizontalAlignment.Center;
+            Controls.Add(textBox7);
+            Controls.Add(label7);
+
+            TextBox textBox8 = new TextBox();
+            textBox8.Location = new Point(55, 215);
+            Label label8 = new Label();
+
+            label8.Location = new Point(5, 215);
+            label8.Text = "Value";
+            textBox8.Multiline = true;
+            textBox8.Height = 25;
+            textBox8.Width = 75;
+            textBox8.Visible = true;
+            textBox8.Text = valoare;
+            textBox8.TextAlign = HorizontalAlignment.Center;
+            Controls.Add(textBox8);
+            Controls.Add(label8);
+
 
 
             this.FormClosing += Form2_FormClosing;
