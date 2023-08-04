@@ -52,7 +52,7 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Declaratie Vamala",
-            "X",
+            "CWB AUTOMOTIVE",
             "Y",
             "Z"});
             this.comboBox1.Location = new System.Drawing.Point(413, 186);

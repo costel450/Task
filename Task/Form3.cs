@@ -32,10 +32,13 @@ namespace Task
                     Form1 form1 = new Form1();
                     this.Hide();
                     form1.ShowDialog();
-                   
 
-
-
+                }
+                else if (selectedValue == "CWB AUTOMOTIVE")
+                {
+                    Form4 form4 = new Form4();
+                    this.Hide();
+                    form4.ShowDialog();
                 }
             }
         }

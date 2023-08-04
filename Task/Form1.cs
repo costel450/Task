@@ -26,7 +26,7 @@ namespace Task
             this.FormClosing += Form1_FormClosing;
         }
 
-        public void ExtractImagesAndTextFromPDFPage(string filePath)
+        public string ExtractImagesAndTextFromPDFPage(string filePath)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -45,9 +45,13 @@ namespace Task
             }
 
             string mess = sb.ToString();
-            SearchValuesInText(mess);
+            return mess;
         }
-
+        public void search(string file)
+        {
+            string x = ExtractImagesAndTextFromPDFPage(file);
+            SearchValuesInText(x);
+        }
         public void ExtractImagesFromPDFPage(PdfDictionary resources, StringBuilder sb)
         {
             if (resources == null)
@@ -322,7 +326,7 @@ namespace Task
                 string filePath = openPdf.FileName;
                 Process.Start(adobe, filePath);
 
-                ExtractImagesAndTextFromPDFPage(filePath);
+                search(filePath);
             }
         }
 
