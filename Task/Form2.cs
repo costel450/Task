@@ -46,7 +46,7 @@ namespace Task
             TextBox textBox4 = new TextBox();
             Label label4 = new Label();
             label4.Location = new Point(350, 25);
-            label4.Text = "MAT.NR";
+            label4.Text = "HS";
             textBox4.Location = new Point(400, 20);
             textBox4.Multiline = true;
             textBox4.Height = 25;

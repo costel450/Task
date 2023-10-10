@@ -205,6 +205,29 @@ namespace Task
 
             return extractedValues;
         }
+        static string FindNextValue(string text, string searchTerm)
+        {
+            int index = text.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase);
+
+            if (index >= 0)
+            {
+                index += searchTerm.Length;
+                while (index < text.Length && !char.IsDigit(text[index]))
+                {
+                    index++;
+                }
+
+                int endIndex = index;
+                while (endIndex < text.Length && (char.IsDigit(text[endIndex]) || text[endIndex] == '.'))
+                {
+                    endIndex++;
+                }
+
+                return text.Substring(index, endIndex - index);
+            }
+
+            return null;
+        }
 
         public void SearchValuesInText(string text)
         {
@@ -302,9 +325,59 @@ namespace Task
                 sb.Append(value); break;
 
             }
-            string valaore=sb.ToString().Replace("Pret articol","").Trim();
+            //string valaore=sb.ToString().Replace("Pret articol","").Trim();
+            //sb= sb.Clear();
+
+
+
+            string input = "Pret articol some text Pretarticol";
+            string pattern123 = @"Pret(\s)?articol"; // This pattern matches "Pret articol" and "Pretarticol"
+            string valoare = Regex.Replace(sb.ToString(), pattern123, string.Empty);       
+
+
             // Create a Regex object with the pattern
-            Form2 form2 = new Form2(mrn, date, cod_marfa, provid, exp, moneda_plata, valaore) ;
+            /*
+            string searchTerm = "Birou de intrare";
+
+            string nextValue = FindNextValue(text, searchTerm);
+
+            if (!string.IsNullOrEmpty(nextValue))
+            {
+                MessageBox.Show("Next value of 'intrare': " + nextValue);
+            }
+            else
+            {
+                MessageBox.Show("No 'intrare' value found.");
+            }
+            */
+            string mod1 = @"\b(?:RO|DE|HU)[A-Z0-9]{2}[0-9]{4}\b";
+
+            List<string> results = REGVAL(text, pattern);
+
+            // Skip the first occurrence of "ROBV0300" if found
+            bool skipFirst = false;
+
+            foreach (string result in results)
+            {
+                if (skipFirst)
+                {
+                    Console.WriteLine("Next matching word after ROBV0300: " + result);
+                    break; // Exit the loop after the first match
+                }
+
+                if (result.Equals("ROBV0300"))
+                {
+                    skipFirst = true;
+                    continue; // Skip the first occurrence of "ROBV0300"
+                }
+            }
+
+            if (!skipFirst)
+            {
+                MessageBox.Show("No matching words found after skipping the first ROBV0300.");
+            }
+
+            Form2 form2 = new Form2(mrn, date, cod_marfa, provid, exp, moneda_plata, valoare) ;
             form2.Show();
 
         }
